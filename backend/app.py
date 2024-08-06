@@ -1,21 +1,22 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import time
+import logging
 from database import Database
 from algos.bfs import bfs
 from algos.dijkstra import dijkstra
-import logging
 
 app = Flask(__name__)
 CORS(app)
 
 logging.basicConfig(level=logging.INFO)
 
-BUCKET_NAME = "cop3530-wiki-data"
-BLOB_NAME = "dumps/20240801/sdow.sqlite"
+# BUCKET_NAME = "cop3530-wiki-data"
+# BLOB_NAME = "dumps/20240801/sdow.sqlite.gz"
+JSON_FILE_PATH = "fake_wikipedia_graph.json"
 
 try:
-    database = Database(BUCKET_NAME, BLOB_NAME)
+    database = Database(JSON_FILE_PATH)
 except Exception as e:
     logging.error(f"Failed to initialize database: {str(e)}")
     database = None
@@ -35,6 +36,7 @@ def find_path():
     try:
         start_id, start_title, is_start_redirect = database.fetch_page(start)
         end_id, end_title, is_end_redirect = database.fetch_page(end)
+        logging.info(f"Start ID: {start_id}, End ID: {end_id}")
     except ValueError as e:
         logging.error(f"Error fetching pages: {str(e)}")
         return jsonify({'error': str(e)}), 404
@@ -62,14 +64,26 @@ def find_path():
         logging.info(f"Path found: {response}")
         return jsonify(response)
     else:
-        logging.info("No path found")
+        logging.info(f"No path found. Visited {len(visited)} pages.")
         return jsonify({'error': 'No path found'}), 404
 
 @app.route('/autocomplete', methods=['GET'])
 def autocomplete():
     query = request.args.get('q', '')
-    results = database.cursor.execute('SELECT title FROM pages WHERE title LIKE ? LIMIT 10', (f'{query}%',)).fetchall()
-    return jsonify([result[0] for result in results])
+    results = database.autocomplete(query)
+    return jsonify(results)
+
+@app.route('/database_status', methods=['GET'])
+def database_status():
+    try:
+        status = database.get_status()
+        return jsonify(status), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/test', methods=['GET'])
+def test():
+    return jsonify({"message": "Test successful"}), 200
 
 if __name__ == '__main__':
     app.run(debug=True)

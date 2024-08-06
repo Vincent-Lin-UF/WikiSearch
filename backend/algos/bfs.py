@@ -1,6 +1,7 @@
+import logging
 from collections import deque
 
-def bfs(conn, start_id, end_id):
+def bfs(database, start_id, end_id):
     queue = deque([(start_id, [start_id])])
     visited = set([start_id])
 
@@ -9,14 +10,11 @@ def bfs(conn, start_id, end_id):
         if vertex == end_id:
             return path, list(visited)
 
-        cursor = conn.cursor()
-        cursor.execute('SELECT to_page_id FROM links WHERE from_page_id = ?', (vertex,))
-        neighbors = cursor.fetchall()
+        neighbors = database.fetch_outgoing_links(vertex)
 
-        for neighbor in neighbors:
-            neighbor_id = neighbor[0]
+        for neighbor_id in neighbors:
             if neighbor_id not in visited:
                 visited.add(neighbor_id)
                 queue.append((neighbor_id, path + [neighbor_id]))
 
-    return None, list(visited)
+    return None, list(visited)  # No path found

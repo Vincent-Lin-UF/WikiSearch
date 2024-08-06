@@ -1,6 +1,6 @@
 import heapq
 
-def dijkstra(conn, start_id, end_id):
+def dijkstra(database, start_id, end_id):
     distances = {start_id: 0}
     previous = {start_id: None}
     pq = [(0, start_id)]
@@ -21,12 +21,9 @@ def dijkstra(conn, start_id, end_id):
 
         visited.add(current_vertex)
 
-        cursor = conn.cursor()
-        cursor.execute('SELECT to_page_id FROM links WHERE from_page_id = ?', (current_vertex,))
-        neighbors = cursor.fetchall()
+        neighbors = database.fetch_outgoing_links(current_vertex)
 
-        for neighbor in neighbors:
-            neighbor_id = neighbor[0]
+        for neighbor_id in neighbors:
             distance = current_distance + 1 
 
             if neighbor_id not in distances or distance < distances[neighbor_id]:

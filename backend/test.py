@@ -10,7 +10,10 @@ def test_find_path(start, end, algorithm):
     }
     headers = {"Content-Type": "application/json"}
 
-    response = requests.post(url, data=json.dumps(payload), headers=headers)
+    print(f"Sending request to: {url}")
+    print(f"Payload: {payload}")
+
+    response = requests.post(url, json=payload, headers=headers)
     
     print(f"Status Code: {response.status_code}")
     print(f"Raw Response: {response.text}")
@@ -20,5 +23,5 @@ def test_find_path(start, end, algorithm):
     except json.JSONDecodeError:
         print("Response is not valid JSON")
 
-# Test cases
-test_find_path("Python (programming language)", "Philosophy", "bfs")
+test_find_path("Page_0", "Page_100", "bfs")
+test_find_path("Page_0", "Page_100", "dijkstra")
