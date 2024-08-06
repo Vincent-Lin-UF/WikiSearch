@@ -17,4 +17,4 @@ def bfs(database, start_id, end_id):
                 visited.add(neighbor_id)
                 queue.append((neighbor_id, path + [neighbor_id]))
 
-    return None, list(visited)  # No path found
+    return None, list(visited)

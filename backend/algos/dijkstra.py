@@ -11,7 +11,7 @@ def dijkstra(database, start_id, end_id):
 
         if current_vertex == end_id:
             path = []
-            while current_vertex:
+            while current_vertex is not None:
                 path.append(current_vertex)
                 current_vertex = previous[current_vertex]
             return path[::-1], list(visited)
@@ -31,4 +31,4 @@ def dijkstra(database, start_id, end_id):
                 previous[neighbor_id] = current_vertex
                 heapq.heappush(pq, (distance, neighbor_id))
 
-    return None, list(visited)  # No path found
+    return None, list(visited)
