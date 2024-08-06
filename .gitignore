@@ -1,2 +1,3 @@
 backend/dump/
 *.sqlite
+backend/fake_wikipedia_graph.json
