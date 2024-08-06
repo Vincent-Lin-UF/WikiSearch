@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 import time
 import logging
 from database import Database
@@ -22,6 +22,7 @@ except Exception as e:
     database = None
 
 @app.route('/find_path', methods=['POST'])
+@cross_origin()
 def find_path():
     if database is None:
         return jsonify({'error': 'Database not initialized'}), 500
@@ -68,10 +69,11 @@ def find_path():
         return jsonify({'error': 'No path found'}), 404
 
 @app.route('/autocomplete', methods=['GET'])
+@cross_origin()
 def autocomplete():
     query = request.args.get('q', '')
-    results = database.autocomplete(query)
-    return jsonify(results)
+    suggestions = database.autocomplete(query)
+    return jsonify(suggestions)
 
 @app.route('/database_status', methods=['GET'])
 def database_status():

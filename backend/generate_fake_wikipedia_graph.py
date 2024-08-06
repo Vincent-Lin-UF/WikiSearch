@@ -29,6 +29,6 @@ def save_graph_to_json(graph, filename="fake_wikipedia_graph.json"):
         json.dump(graph, f)
     print("Done!")
 
-num_nodes = 10000
+num_nodes = 1000000
 graph = generate_fake_wikipedia_graph(num_nodes)
 save_graph_to_json(graph)
