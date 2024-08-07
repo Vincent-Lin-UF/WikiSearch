@@ -105,7 +105,7 @@ function WikipathFinder() {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-4">Wikipedia Path Finder</h1>
+      <h1 className="text-3xl font-bold mb-4">WikiSearch</h1>
       <div className="mb-4">
         <label htmlFor="start" className="block mb-2">Start Page:</label>
         <AutocompleteInput
@@ -124,20 +124,34 @@ function WikipathFinder() {
           placeholder="Enter end page"
         />
       </div>
-      <div className="flex space-x-4 mb-4">
+      <div className="flex flex-wrap gap-4 mb-4">
         <button
           onClick={() => findPath('bfs')}
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300"
           disabled={isLoading}
         >
           Find Path (BFS)
         </button>
         <button
           onClick={() => findPath('dijkstra')}
-          className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+          className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition duration-300"
           disabled={isLoading}
         >
           Find Path (Dijkstra)
+        </button>
+        <button
+          onClick={() => findPath('bellman_ford')}
+          className="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 transition duration-300"
+          disabled={isLoading}
+        >
+          Find Path (Bellman-Ford)
+        </button>
+        <button
+          onClick={() => findPath('bidirectional_bfs')}
+          className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition duration-300"
+          disabled={isLoading}
+        >
+          Find Path (Bi-BFS)
         </button>
       </div>
       {isLoading && <p className="text-gray-600">Searching...</p>}

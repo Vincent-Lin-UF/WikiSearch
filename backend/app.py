@@ -3,8 +3,12 @@ from flask_cors import CORS, cross_origin
 import time
 import logging
 from database import Database
+
+# Shortest Path Algorithms
 from algos.bfs import bfs
 from algos.dijkstra import dijkstra
+from algos.bellman_ford import bellman_ford
+from algos.bidirectional_bfs import bidirectional_bfs
 
 app = Flask(__name__)
 CORS(app)
@@ -48,8 +52,13 @@ def find_path():
         path, visited = bfs(database, start_id, end_id)
     elif algorithm == 'dijkstra':
         path, visited = dijkstra(database, start_id, end_id)
+    elif algorithm == 'bellman_ford':
+        path, visited = bellman_ford(database, start_id, end_id)
+    elif algorithm == 'bidirectional_bfs':
+        path, visited = bidirectional_bfs(database, start_id, end_id)
     else:
         return jsonify({'error': 'Invalid algorithm'}), 400
+
     
     end_time = time.time()
     

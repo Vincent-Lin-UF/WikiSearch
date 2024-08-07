@@ -1,6 +1,6 @@
 # WikiSearch
 
-This projects uses BFS and Djikstra's shortest path finding algorithm to find the shortest path between two wikipedia pages
+This projects uses BFS, Djikstra's, Bellman-Ford, and Bi-Directional BFS shortest path finding algorithm to find the shortest path between two wikipedia pages
 
 ## Prerequisites
 
@@ -80,19 +80,27 @@ The application will open in your default web browser at `http://localhost:3000`
 
 3. Type a start page and an end page from the suggestions. Example "Page_12" and "Page_2342".
 
-4. Click either the "Find Path (BFS)" or "Find Path (Dijkstra)" button to find the shortest path between the two pages.
+4. Click either the "Find Path (BFS)", "Find Path (Dijkstra), "Find Path (Bellman-Ford)", or "Find Path (Bi-BFS)" button to find the shortest path between the two pages using the selected algorithm.
 
 5. The results will display the path found, the number of pages visited during the search, and the time taken to find the path.
 
 ## Project Structure
 
-- `backend/`: Contains the Flask server and BFS/Djikstras algorithms.
+- `backend/`: Contains the Flask server and Search algorithms.
 - `app.py`: The main Flask app.
 - `database.py`: Handles interactions with the fake Wikipedia graph.
-- `algos/`: Contains the BFS and Dijkstra algorithms.
+- `algos/`: Contains the BFS, Dijkstra, Bellman-Ford, and Bi-Directional Search algorithms.
 - `generate_fake_graph.py`: Script to generate the fake Wikipedia graph.
+- `noWork/`: [No longer used] Contains the old `database.py` used for the acutal wikipedia database.
+- `scripts/`: [No longer used] Contains all the scripts to extract, process, and refine the wikipedia database onto an adjacency list of SQL tables.
+- `sql/`: [No longer used] Contains all the instructions to create the SQL tables.
+- `test.py`: Used to test the backend without needing the frontend.
 
 - `frontend/`: Contains the React application.
 - `src/`: Source files for the React app.
  - `App.js`: The main React component.
- - `WikipathFinder.js`: The component for the pathfinding interface.
+ - `WikiSearch.js`: The component for the pathfinding interface.
+
+ ## Connect on LinkedIn!
+
+ Vincent Lin - https://www.linkedin.com/in/vincent-lin-uf/
